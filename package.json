@@ -1,0 +1,15 @@
+{
+  "name": "transparent-notebook",
+  "version": "1.0.0",
+  "description": "A transparent overlay notebook for macOS",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": ["notebook", "transparent", "overlay", "electron"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0"
+  }
+}

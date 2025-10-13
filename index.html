@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transparent Notebook</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <div id="title-bar" class="title-bar">
+      <button id="menu-btn" class="menu-btn">☰</button>
+      <div id="dropdown-menu" class="dropdown-menu">
+        <div class="menu-item">
+          <label for="opacity-slider">Opacity</label>
+          <div class="opacity-control">
+            <input type="range" id="opacity-slider" min="10" max="100" value="85">
+            <span id="opacity-value">85%</span>
+          </div>
+        </div>
+        <div class="menu-divider"></div>
+        <button class="menu-button" id="theme-toggle-btn">
+          <span id="theme-icon">☀️</span>
+          <span id="theme-label">Dark Mode</span>
+        </button>
+        <button class="menu-button" id="open-btn">Open File (Cmd+O)</button>
+        <button class="menu-button" id="save-btn">Save (Cmd+S)</button>
+      </div>
+      <div class="window-controls">
+        <button id="minimize-btn" class="window-btn" title="Minimize">−</button>
+        <button id="maximize-btn" class="window-btn" title="Maximize">□</button>
+        <button id="close-btn" class="window-btn close" title="Close">×</button>
+      </div>
+    </div>
+    <textarea id="editor" placeholder="Start typing..."></textarea>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>
