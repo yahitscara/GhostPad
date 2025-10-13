@@ -13,16 +13,64 @@ A lightweight, transparent overlay notebook for macOS, Windows, and Linux. Perfe
 
 ## Installation
 
-### Prerequisites
+### For End Users (Pre-built Apps)
+
+Want to just use the app? Download the latest release for your platform:
+
+#### macOS
+1. Go to the [Releases page](https://github.com/yahitscara/transparent-notebook/releases)
+2. Download `Transparent-Notebook-1.0.0.dmg`
+3. Open the downloaded file
+4. Drag "Transparent Notebook" to your Applications folder
+5. **Right-click** the app and select "Open" (only needed first time to bypass security)
+6. Click "Open" in the security dialog
+
+**Troubleshooting**: If the app won't open, go to System Preferences > Security & Privacy > General, and click "Open Anyway"
+
+#### Windows
+1. Go to the [Releases page](https://github.com/yahitscara/transparent-notebook/releases)
+2. Download either:
+   - `Transparent-Notebook-Setup-1.0.0.exe` (installer version)
+   - `Transparent-Notebook-1.0.0.exe` (portable version - no install needed)
+3. Run the downloaded file
+4. If Windows Defender SmartScreen appears, click "More info" → "Run anyway"
+5. Follow the installation wizard (installer version) or just run it (portable version)
+
+**Troubleshooting**: The security warning is normal for apps not from the Microsoft Store. The app is open source and doesn't require code signing.
+
+#### Linux (Ubuntu/Debian)
+1. Go to the [Releases page](https://github.com/yahitscara/transparent-notebook/releases)
+2. Download either:
+   - `Transparent-Notebook-1.0.0.AppImage` (works on all distros)
+   - `transparent-notebook_1.0.0_amd64.deb` (Debian/Ubuntu)
+
+**For AppImage**:
+```bash
+chmod +x Transparent-Notebook-1.0.0.AppImage
+./Transparent-Notebook-1.0.0.AppImage
+```
+
+**For .deb package**:
+```bash
+sudo dpkg -i transparent-notebook_1.0.0_amd64.deb
+```
+
+**Troubleshooting**: If transparency doesn't work, enable compositor in your window manager settings.
+
+---
+
+### For Developers (Build from Source)
+
+#### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v14 or higher)
 - npm (comes with Node.js)
 
-### Setup
+#### Setup
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/transparent-notebook.git
+git clone https://github.com/yahitscara/transparent-notebook.git
 cd transparent-notebook
 ```
 
