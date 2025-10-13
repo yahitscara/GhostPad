@@ -1,15 +1,64 @@
 {
   "name": "transparent-notebook",
   "version": "1.0.0",
-  "description": "A transparent overlay notebook for macOS",
+  "description": "A transparent overlay notebook for macOS, Windows, and Linux",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder --mac --win --linux"
   },
-  "keywords": ["notebook", "transparent", "overlay", "electron"],
+  "keywords": [
+    "notebook",
+    "transparent",
+    "overlay",
+    "electron"
+  ],
   "author": "",
   "license": "MIT",
+  "build": {
+    "appId": "com.transparentnotebook.app",
+    "productName": "Transparent Notebook",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "build/icon.png"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "icon": "build/icon.png"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "index.html",
+      "styles.css",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  },
   "devDependencies": {
-    "electron": "^28.0.0"
+    "electron": "^28.0.0",
+    "electron-builder": "^26.0.12"
   }
 }
