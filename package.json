@@ -1,7 +1,7 @@
 {
-  "name": "transparent-notebook",
-  "version": "1.0.0",
-  "description": "A transparent overlay notebook for macOS, Windows, and Linux",
+  "name": "ghostpad",
+  "version": "1.0.1",
+  "description": "GhostPad - A transparent overlay notebook for macOS, Windows, and Linux",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -23,8 +23,8 @@
   },
   "license": "MIT",
   "build": {
-    "appId": "com.transparentnotebook.app",
-    "productName": "Transparent Notebook",
+    "appId": "com.ghostpad.app",
+    "productName": "GhostPad",
     "mac": {
       "category": "public.app-category.productivity",
       "target": [

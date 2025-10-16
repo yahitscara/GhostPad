@@ -295,3 +295,53 @@ body.dark-mode #editor::-webkit-scrollbar-thumb {
 body.dark-mode #editor::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Update notification banner */
+.update-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(52, 199, 89, 0.9);
+  color: white;
+  font-size: 13px;
+  gap: 12px;
+  border-radius: 8px 8px 0 0;
+  -webkit-app-region: no-drag;
+}
+
+.update-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: #34c759;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.update-btn:hover {
+  background: white;
+}
+
+.update-dismiss {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.update-dismiss:hover {
+  opacity: 1;
+}
+
+body.dark-mode .update-banner {
+  background: rgba(52, 199, 89, 0.85);
+}

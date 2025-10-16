@@ -19,6 +19,13 @@ const minimizeBtn = document.getElementById('minimize-btn');
 const maximizeBtn = document.getElementById('maximize-btn');
 const closeBtn = document.getElementById('close-btn');
 const app = document.getElementById('app');
+const updateBanner = document.getElementById('update-banner');
+const updateMessage = document.getElementById('update-message');
+const downloadUpdateBtn = document.getElementById('download-update-btn');
+const dismissUpdateBtn = document.getElementById('dismiss-update-btn');
+const checkUpdatesBtn = document.getElementById('check-updates-btn');
+
+let updateUrl = '';
 
 // Initialize theme from localStorage
 function initTheme() {
@@ -157,6 +164,47 @@ document.addEventListener('keydown', async (e) => {
     e.preventDefault();
     window.electronAPI.quitApp();
   }
+});
+
+// Listen for editor state requests (for quit confirmation)
+window.electronAPI.getEditorState((event) => {
+  window.electronAPI.sendEditorState(hasUnsavedChanges, currentFilePath, editor.value);
+});
+
+// Listen for update notifications
+window.electronAPI.onUpdateAvailable((data) => {
+  updateUrl = data.url;
+  updateMessage.textContent = `New version ${data.version} available!`;
+  updateBanner.style.display = 'flex';
+});
+
+// Download update button
+downloadUpdateBtn.addEventListener('click', async () => {
+  if (updateUrl) {
+    await window.electronAPI.openExternal(updateUrl);
+  }
+});
+
+// Dismiss update banner
+dismissUpdateBtn.addEventListener('click', () => {
+  updateBanner.style.display = 'none';
+});
+
+// Manual update check
+checkUpdatesBtn.addEventListener('click', async () => {
+  const result = await window.electronAPI.checkForUpdates();
+
+  if (result.error) {
+    alert('Unable to check for updates. Please check your internet connection.');
+  } else if (result.updateAvailable) {
+    updateUrl = result.url;
+    updateMessage.textContent = `New version v${result.latestVersion} available!`;
+    updateBanner.style.display = 'flex';
+  } else {
+    alert(`You're up to date! Current version: ${result.currentVersion}`);
+  }
+
+  dropdownMenu.classList.remove('show');
 });
 
 // Initialize theme and focus editor on load

@@ -3,11 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transparent Notebook</title>
+  <title>GhostPad</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="app">
+    <!-- Update notification banner -->
+    <div id="update-banner" class="update-banner" style="display: none;">
+      <span id="update-message">New version available!</span>
+      <button id="download-update-btn" class="update-btn">Download Update</button>
+      <button id="dismiss-update-btn" class="update-dismiss">×</button>
+    </div>
+
     <div id="title-bar" class="title-bar">
       <button id="menu-btn" class="menu-btn">☰</button>
       <div id="dropdown-menu" class="dropdown-menu">
@@ -25,6 +32,8 @@
         </button>
         <button class="menu-button" id="open-btn">Open File (Cmd+O)</button>
         <button class="menu-button" id="save-btn">Save (Cmd+S)</button>
+        <div class="menu-divider"></div>
+        <button class="menu-button" id="check-updates-btn">Check for Updates</button>
       </div>
       <div class="window-controls">
         <button id="minimize-btn" class="window-btn" title="Minimize">−</button>
