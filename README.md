@@ -1,5 +1,8 @@
 # Transparent Notebook
 
+[![GitHub Release](https://img.shields.io/github/v/release/yahitscara/transparent-notebook)](https://github.com/yahitscara/transparent-notebook/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/yahitscara/transparent-notebook/total)](https://github.com/yahitscara/transparent-notebook/releases)
+
 A lightweight, transparent overlay notebook for macOS, Windows, and Linux. Perfect for taking notes while watching videos, reading documentation, or working with multiple windows.
 
 ## Features
@@ -18,8 +21,8 @@ A lightweight, transparent overlay notebook for macOS, Windows, and Linux. Perfe
 Want to just use the app? Download the latest release for your platform:
 
 #### macOS
-1. Go to the [Releases page](https://github.com/yahitscara/transparent-notebook/releases)
-2. Download `Transparent-Notebook-1.0.0.dmg`
+1. **[Download for macOS (.dmg)](https://github.com/yahitscara/transparent-notebook/releases/latest/download/Transparent-Notebook-1.0.0-arm64.dmg)** (Apple Silicon) or **[Intel version](https://github.com/yahitscara/transparent-notebook/releases/latest)** (see releases page)
+2. Alternatively, go to the [Releases page](https://github.com/yahitscara/transparent-notebook/releases/latest)
 3. Open the downloaded file
 4. Drag "Transparent Notebook" to your Applications folder
 5. **Right-click** the app and select "Open" (only needed first time to bypass security)
@@ -28,10 +31,10 @@ Want to just use the app? Download the latest release for your platform:
 **Troubleshooting**: If the app won't open, go to System Preferences > Security & Privacy > General, and click "Open Anyway"
 
 #### Windows
-1. Go to the [Releases page](https://github.com/yahitscara/transparent-notebook/releases)
-2. Download either:
+1. **[Download Installer (.exe)](https://github.com/yahitscara/transparent-notebook/releases/latest)** - Choose from the releases page:
    - `Transparent-Notebook-Setup-1.0.0.exe` (installer version)
    - `Transparent-Notebook-1.0.0.exe` (portable version - no install needed)
+2. Or visit the [Releases page](https://github.com/yahitscara/transparent-notebook/releases/latest) for all options
 3. Run the downloaded file
 4. If Windows Defender SmartScreen appears, click "More info" → "Run anyway"
 5. Follow the installation wizard (installer version) or just run it (portable version)
@@ -39,8 +42,8 @@ Want to just use the app? Download the latest release for your platform:
 **Troubleshooting**: The security warning is normal for apps not from the Microsoft Store. The app is open source and doesn't require code signing.
 
 #### Linux (Ubuntu/Debian)
-1. Go to the [Releases page](https://github.com/yahitscara/transparent-notebook/releases)
-2. Download either:
+1. **[Download AppImage](https://github.com/yahitscara/transparent-notebook/releases/latest)** (universal) or **[Download .deb](https://github.com/yahitscara/transparent-notebook/releases/latest)** (Ubuntu/Debian)
+2. Or visit the [Releases page](https://github.com/yahitscara/transparent-notebook/releases/latest) for all options:
    - `Transparent-Notebook-1.0.0.AppImage` (works on all distros)
    - `transparent-notebook_1.0.0_amd64.deb` (Debian/Ubuntu)
 
