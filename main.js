@@ -57,7 +57,7 @@ function fetchLatestRelease() {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'api.github.com',
-      path: '/repos/yahitscara/transparent-notebook/releases/latest',
+      path: '/repos/yahitscara/ghostpad/releases/latest',
       headers: {
         'User-Agent': 'GhostPad'
       }
