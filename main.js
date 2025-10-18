@@ -17,10 +17,12 @@ function createWindow() {
     frame: false,
     alwaysOnTop: true,
     resizable: true,
+    hasShadow: false, // Fix for ghost text trails - see GHOST_TEXT_BUG_INVESTIGATION.md
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
+      backgroundThrottling: false // Prevent throttling when window is in background
     }
   });
 
