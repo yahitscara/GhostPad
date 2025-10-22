@@ -22,8 +22,8 @@ Want to just use the app? Download the latest release for your platform:
 
 #### macOS
 **Direct Downloads:**
-- **[Apple Silicon (M1/M2/M3)](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-1.0.2-arm64.dmg)** (.dmg)
-- **[Intel Mac](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-1.0.2.dmg)** (.dmg)
+- **[Apple Silicon (M1/M2/M3)](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-arm64.dmg)** (.dmg)
+- **[Intel Mac](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-x64.dmg)** (.dmg)
 
 **Installation:**
 1. Download the appropriate version for your Mac
@@ -36,8 +36,8 @@ Want to just use the app? Download the latest release for your platform:
 
 #### Windows
 **Direct Downloads:**
-- **[Installer Version](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad.Setup.1.0.2.exe)** (.exe) - Recommended
-- **[Portable Version](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad.1.0.2.exe)** (.exe) - No install needed
+- **[Installer Version](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-Setup.exe)** (.exe) - Recommended
+- **[Portable Version](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-Portable.exe)** (.exe) - No install needed
 
 **Installation:**
 1. Download either version (installer recommended for most users)
@@ -49,18 +49,18 @@ Want to just use the app? Download the latest release for your platform:
 
 #### Linux (Ubuntu/Debian)
 **Direct Downloads:**
-- **[AppImage](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-1.0.2.AppImage)** (works on all distros)
-- **[.deb Package](https://github.com/yahitscara/ghostpad/releases/latest/download/ghostpad_1.0.2_amd64.deb)** (Ubuntu/Debian)
+- **[AppImage](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad.AppImage)** (works on all distros)
+- **[.deb Package](https://github.com/yahitscara/ghostpad/releases/latest/download/ghostpad_amd64.deb)** (Ubuntu/Debian)
 
 **For AppImage**:
 ```bash
-chmod +x Transparent-Notebook-1.0.0.AppImage
-./Transparent-Notebook-1.0.0.AppImage
+chmod +x GhostPad.AppImage
+./GhostPad.AppImage
 ```
 
 **For .deb package**:
 ```bash
-sudo dpkg -i transparent-notebook_1.0.0_amd64.deb
+sudo dpkg -i ghostpad_amd64.deb
 ```
 
 **Troubleshooting**: If transparency doesn't work, enable compositor in your window manager settings.
