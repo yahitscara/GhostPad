@@ -1,7 +1,7 @@
 # GhostPad
 
-[![GitHub Release](https://img.shields.io/github/v/release/yahitscara/ghostpad)](https://github.com/yahitscara/ghostpad/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/yahitscara/ghostpad/total)](https://github.com/yahitscara/ghostpad/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/yahitscara/GhostPad)](https://github.com/yahitscara/GhostPad/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/yahitscara/GhostPad/total)](https://github.com/yahitscara/GhostPad/releases)
 
 A lightweight, transparent overlay notebook for macOS, Windows, and Linux. Perfect for taking notes while watching videos, reading documentation, or working with multiple windows.
 
@@ -22,13 +22,13 @@ Want to just use the app? Download the latest release for your platform:
 
 #### macOS
 **Direct Downloads:**
-- **[Apple Silicon (M1/M2/M3)](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-arm64.dmg)** (.dmg)
-- **[Intel Mac](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-x64.dmg)** (.dmg)
+- **[Apple Silicon (M1/M2/M3)](https://github.com/yahitscara/GhostPad/releases/latest/download/GhostPad-arm64.dmg)** (.dmg)
+- **[Intel Mac](https://github.com/yahitscara/GhostPad/releases/latest/download/GhostPad-x64.dmg)** (.dmg)
 
 **Installation:**
 1. Download the appropriate version for your Mac
 2. Open the downloaded `.dmg` file
-3. Drag "Transparent Notebook" to your Applications folder
+3. Drag "GhostPad" to your Applications folder
 4. **Right-click** the app and select "Open" (only needed first time to bypass security)
 5. Click "Open" in the security dialog
 
@@ -36,8 +36,8 @@ Want to just use the app? Download the latest release for your platform:
 
 #### Windows
 **Direct Downloads:**
-- **[Installer Version](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-Setup.exe)** (.exe) - Recommended
-- **[Portable Version](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad-Portable.exe)** (.exe) - No install needed
+- **[Installer Version](https://github.com/yahitscara/GhostPad/releases/latest/download/GhostPad-Setup.exe)** (.exe) - Recommended
+- **[Portable Version](https://github.com/yahitscara/GhostPad/releases/latest/download/GhostPad-Portable.exe)** (.exe) - No install needed
 
 **Installation:**
 1. Download either version (installer recommended for most users)
@@ -49,8 +49,8 @@ Want to just use the app? Download the latest release for your platform:
 
 #### Linux (Ubuntu/Debian)
 **Direct Downloads:**
-- **[AppImage](https://github.com/yahitscara/ghostpad/releases/latest/download/GhostPad.AppImage)** (works on all distros)
-- **[.deb Package](https://github.com/yahitscara/ghostpad/releases/latest/download/ghostpad_amd64.deb)** (Ubuntu/Debian)
+- **[AppImage](https://github.com/yahitscara/GhostPad/releases/latest/download/GhostPad.AppImage)** (works on all distros)
+- **[.deb Package](https://github.com/yahitscara/GhostPad/releases/latest/download/ghostpad_amd64.deb)** (Ubuntu/Debian)
 
 **For AppImage**:
 ```bash
@@ -133,8 +133,8 @@ You can also check for updates manually:
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yahitscara/ghostpad.git
-cd transparent-notebook
+git clone https://github.com/yahitscara/GhostPad.git
+cd GhostPad
 ```
 
 2. Install dependencies:
