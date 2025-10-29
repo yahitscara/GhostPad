@@ -55,14 +55,14 @@
         "appx"
       ],
       "icon": "build/icon.png",
-      "publisherName": "CN=YourPublisherName"
+      "publisherName": "CN=C460A48B-7A76-4354-AE36-F88E63237079"
     },
     "appx": {
       "applicationId": "GhostPad",
       "displayName": "GhostPad",
-      "publisherDisplayName": "yahitscara",
-      "identityName": "YourIdentityName",
-      "publisher": "CN=YourPublisherName",
+      "publisherDisplayName": "caяa",
+      "identityName": "caa.GhostPadd",
+      "publisher": "CN=C460A48B-7A76-4354-AE36-F88E63237079",
       "backgroundColor": "#1e1e2e",
       "languages": ["en-US"]
     },
