@@ -50,6 +50,7 @@ jobs:
           name: windows-builds
           path: |
             dist/*.exe
+            dist/*.appx
 
       - name: Upload artifacts (Linux)
         if: matrix.os == 'ubuntu-latest'
