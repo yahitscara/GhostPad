@@ -51,9 +51,20 @@
     "win": {
       "target": [
         "nsis",
-        "portable"
+        "portable",
+        "appx"
       ],
-      "icon": "build/icon.png"
+      "icon": "build/icon.png",
+      "publisherName": "CN=YourPublisherName"
+    },
+    "appx": {
+      "applicationId": "GhostPad",
+      "displayName": "GhostPad",
+      "publisherDisplayName": "yahitscara",
+      "identityName": "YourIdentityName",
+      "publisher": "CN=YourPublisherName",
+      "backgroundColor": "#1e1e2e",
+      "languages": ["en-US"]
     },
     "appImage": {
       "artifactName": "${productName}.${ext}"
