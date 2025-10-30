@@ -1,6 +1,6 @@
 {
   "name": "ghostpad",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "GhostPad - A transparent overlay notebook for macOS, Windows, and Linux",
   "main": "main.js",
   "scripts": {
@@ -57,8 +57,8 @@
       "icon": "build/icon.png"
     },
     "appx": {
-      "applicationId": "GhostPad",
-      "displayName": "GhostPad",
+      "applicationId": "GhostPadd",
+      "displayName": "GhostPadd",
       "publisherDisplayName": "caяa",
       "identityName": "caa.GhostPadd",
       "publisher": "CN=C460A48B-7A76-4354-AE36-F88E63237079",
