@@ -1,6 +1,6 @@
 {
   "name": "ghostpad",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "GhostPad - A transparent overlay notebook for macOS, Windows, and Linux",
   "main": "main.js",
   "scripts": {
