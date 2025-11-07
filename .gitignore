@@ -3,4 +3,6 @@ node_modules/
 *.log
 dist/
 build/
+!build/icon.png
+!build/appx/
 .TODO.md
