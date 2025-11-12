@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- App Sandbox (inherited by all child processes) -->
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+
+	<!-- Inherit parent's ability to read/write user-selected files -->
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+
+	<!-- Inherit network client access -->
+	<key>com.apple.security.network.client</key>
+	<true/>
+</dict>
+</plist>

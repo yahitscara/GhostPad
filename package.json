@@ -9,7 +9,8 @@
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win",
     "build:linux": "electron-builder --linux",
-    "build:all": "electron-builder --mac --win --linux"
+    "build:all": "electron-builder --mac --win --linux",
+    "build:mas": "electron-builder --mac mas --universal"
   },
   "keywords": [
     "notebook",
@@ -37,7 +38,22 @@
         }
       ],
       "icon": "build/icon.png",
-      "artifactName": "${productName}-${arch}.${ext}"
+      "artifactName": "${productName}-${arch}.${ext}",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist"
+    },
+    "mas": {
+      "type": "distribution",
+      "category": "public.app-category.productivity",
+      "entitlements": "entitlements.mas.plist",
+      "entitlementsInherit": "entitlements.mas.inherit.plist",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "provisioningProfile": "GhostPad_Mac_App_Store.provisionprofile",
+      "artifactName": "${productName}-MAS.${ext}",
+      "timestamp": null
     },
     "dmg": {
       "artifactName": "${productName}-${arch}.${ext}"

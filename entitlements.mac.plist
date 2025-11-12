@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Hardened Runtime entitlements for direct distribution (non-App Store) -->
+
+	<!-- Allows JIT compilation (needed for Electron/V8) -->
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+
+	<!-- Allows unsigned executable memory (needed for Electron) -->
+	<key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+	<true/>
+
+	<!-- Disable library validation (allows loading of unsigned libraries) -->
+	<key>com.apple.security.cs.disable-library-validation</key>
+	<true/>
+</dict>
+</plist>
