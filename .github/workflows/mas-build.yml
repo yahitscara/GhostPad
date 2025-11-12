@@ -58,7 +58,10 @@ jobs:
           security default-keychain -s $KEYCHAIN_PATH
 
           # Verify certificates
+          echo "Application certificates:"
           security find-identity -v -p codesigning
+          echo "All valid identities:"
+          security find-identity -v
 
           # Clean up
           rm certificate.p12 installer-certificate.p12
