@@ -83,6 +83,8 @@ jobs:
         env:
           CSC_LINK: ${{ secrets.MACOS_CERTIFICATE }}
           CSC_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          CSC_INSTALLER_LINK: ${{ secrets.MACOS_INSTALLER_CERTIFICATE }}
+          CSC_INSTALLER_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
         run: npm run build:mas
 
       - name: Upload Mac App Store build
