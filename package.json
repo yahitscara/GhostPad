@@ -53,7 +53,6 @@
       "gatekeeperAssess": false,
       "provisioningProfile": "GhostPad_Mac_App_Store.provisionprofile",
       "artifactName": "${productName}-MAS.${ext}",
-      "timestamp": null
     },
     "dmg": {
       "artifactName": "${productName}-${arch}.${ext}"
