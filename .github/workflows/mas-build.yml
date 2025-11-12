@@ -77,6 +77,9 @@ jobs:
           ls -la ~/Library/MobileDevice/Provisioning\ Profiles/
 
       - name: Build for Mac App Store
+        env:
+          CSC_LINK: ${{ secrets.MACOS_CERTIFICATE }}
+          CSC_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
         run: npm run build:mas
 
       - name: Upload Mac App Store build
