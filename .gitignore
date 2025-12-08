@@ -4,6 +4,7 @@ node_modules/
 dist/
 build/
 !build/icon.png
+!build/icon.icns
 !build/appx/
 .TODO.md
 

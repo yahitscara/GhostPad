@@ -37,7 +37,7 @@
           ]
         }
       ],
-      "icon": "build/icon.png",
+      "icon": "build/icon.icns",
       "artifactName": "${productName}-${arch}.${ext}",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
@@ -47,6 +47,7 @@
     "mas": {
       "type": "distribution",
       "category": "public.app-category.productivity",
+      "icon": "build/icon.icns",
       "entitlements": "entitlements.mas.plist",
       "entitlementsInherit": "entitlements.mas.inherit.plist",
       "hardenedRuntime": false,
@@ -55,7 +56,14 @@
       "artifactName": "${productName}-MAS.${ext}",
       "extendInfo": {
         "ElectronTeamID": "C34F9R9P79"
-      }
+      },
+      "binaries": [
+        "Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework",
+        "Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/libffmpeg.dylib",
+        "Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/libGLESv2.dylib",
+        "Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/libEGL.dylib",
+        "Contents/Frameworks/Electron Framework.framework/Versions/A/Libraries/libvk_swiftshader.dylib"
+      ]
     },
     "dmg": {
       "artifactName": "${productName}-${arch}.${ext}"
