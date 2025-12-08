@@ -6,3 +6,17 @@ build/
 !build/icon.png
 !build/appx/
 .TODO.md
+
+# Local documentation and setup files (not for repo)
+APP_STORE_*.md
+APP_STORE_*.txt
+BUILD_COMPLETE.md
+GET_CERTIFICATES_NOW.md
+MAC_APP_STORE_SETUP_GUIDE.md
+PROJECT_STATUS.md
+QUICK_START.md
+RESUBMISSION_CHECKLIST.md
+check-certificates.sh
+*.cer
+*.ips
+*.provisionprofile
