@@ -1,0 +1,159 @@
+name: Store Release Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.13)'
+        required: true
+      release_notes:
+        description: 'Release notes for this version'
+        required: true
+        default: 'Bug fixes and improvements'
+      platforms:
+        description: 'Platforms to build (comma-separated: mas,windows)'
+        required: true
+        default: 'mas,windows'
+
+jobs:
+  build-mac-app-store:
+    if: contains(github.event.inputs.platforms, 'mas')
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Update version
+        run: |
+          npm version ${{ github.event.inputs.version }} --no-git-tag-version
+          echo "Updated to version ${{ github.event.inputs.version }}"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Import provisioning profile
+        env:
+          MACOS_PROVISIONING_PROFILE: ${{ secrets.MACOS_PROVISIONING_PROFILE }}
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$MACOS_PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/GhostPad_Mac_App_Store.provisionprofile
+          ls -la ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Build for Mac App Store
+        env:
+          CSC_LINK: ${{ secrets.MACOS_CERTIFICATE }}
+          CSC_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          CSC_INSTALLER_LINK: ${{ secrets.MACOS_INSTALLER_CERTIFICATE }}
+          CSC_INSTALLER_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+        run: npm run build:mas
+
+      - name: Verify package signature
+        run: |
+          echo "=== Package Signature ==="
+          pkgutil --check-signature dist/mas-universal/GhostPad-MAS.pkg
+
+          echo ""
+          echo "=== Renderer Helper Entitlements ==="
+          codesign -d --entitlements - "dist/mas-universal/GhostPad.app/Contents/Frameworks/GhostPad Helper (Renderer).app" 2>&1 | grep -A 1 "allow-jit\|allow-unsigned-executable-memory"
+
+      - name: Upload Mac App Store build
+        uses: actions/upload-artifact@v4
+        with:
+          name: GhostPad-MAS-${{ github.event.inputs.version }}
+          path: dist/mas-universal/GhostPad-MAS.pkg
+          retention-days: 30
+
+      - name: Create release notes file
+        run: |
+          cat > mac-release-notes.txt << 'EOF'
+          ${{ github.event.inputs.release_notes }}
+          EOF
+
+      - name: Upload release notes
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac-release-notes
+          path: mac-release-notes.txt
+          retention-days: 30
+
+      - name: Cleanup keychain
+        if: always()
+        run: |
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          if [ -f "$KEYCHAIN_PATH" ]; then
+            security delete-keychain $KEYCHAIN_PATH
+          fi
+
+  build-windows-store:
+    if: contains(github.event.inputs.platforms, 'windows')
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Update version
+        run: |
+          npm version ${{ github.event.inputs.version }} --no-git-tag-version
+          echo "Updated to version ${{ github.event.inputs.version }}"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build for Windows Store
+        run: npm run build:win
+
+      - name: Upload Windows Store build
+        uses: actions/upload-artifact@v4
+        with:
+          name: GhostPad-Windows-${{ github.event.inputs.version }}
+          path: |
+            dist/*.appx
+            dist/*.exe
+          retention-days: 30
+
+      - name: Create release notes file
+        run: |
+          @"
+          ${{ github.event.inputs.release_notes }}
+          "@ | Out-File -FilePath windows-release-notes.txt -Encoding UTF8
+
+      - name: Upload release notes
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release-notes
+          path: windows-release-notes.txt
+          retention-days: 30
+
+  create-summary:
+    needs: [build-mac-app-store, build-windows-store]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create deployment summary
+        run: |
+          echo "# Store Release v${{ github.event.inputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Release Notes" >> $GITHUB_STEP_SUMMARY
+          echo "${{ github.event.inputs.release_notes }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "Download the built packages from the workflow artifacts above." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "1. Download artifacts from this workflow run" >> $GITHUB_STEP_SUMMARY
+          echo "2. **Mac App Store**: Upload .pkg to App Store Connect via Transporter" >> $GITHUB_STEP_SUMMARY
+          echo "3. **Windows Store**: Upload .appx to Microsoft Partner Center" >> $GITHUB_STEP_SUMMARY
+          echo "4. Submit for review on both platforms" >> $GITHUB_STEP_SUMMARY
