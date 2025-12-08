@@ -1,6 +1,6 @@
 {
   "name": "ghostpad",
-  "version": "1.0.9",
+  "version": "1.0.12",
   "description": "GhostPad - A transparent overlay notebook for macOS, Windows, and Linux",
   "main": "main.js",
   "scripts": {
@@ -53,6 +53,9 @@
       "gatekeeperAssess": false,
       "provisioningProfile": "GhostPad_Mac_App_Store.provisionprofile",
       "artifactName": "${productName}-MAS.${ext}",
+      "extendInfo": {
+        "ElectronTeamID": "C34F9R9P79"
+      }
     },
     "dmg": {
       "artifactName": "${productName}-${arch}.${ext}"
