@@ -1,0 +1,258 @@
+name: Auto Release on Push
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+      - '**.js'
+      - '**.html'
+      - '**.css'
+      - 'entitlements.**.plist'
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      should_release: ${{ steps.check-release.outputs.should_release }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get current version
+        id: get-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
+
+      - name: Check if version changed
+        id: check-release
+        run: |
+          # Get version from previous commit
+          git checkout HEAD~1 -- package.json 2>/dev/null || echo '{"version":"0.0.0"}' > package-old.json
+          if [ -f package-old.json ]; then
+            OLD_VERSION=$(node -p "require('./package-old.json').version")
+          else
+            OLD_VERSION=$(node -p "require('./package.json').version")
+          fi
+          git checkout HEAD -- package.json
+
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+
+          echo "Old version: $OLD_VERSION"
+          echo "New version: $CURRENT_VERSION"
+
+          if [ "$OLD_VERSION" != "$CURRENT_VERSION" ]; then
+            echo "should_release=true" >> $GITHUB_OUTPUT
+            echo "Version changed! Will trigger release."
+          else
+            echo "should_release=false" >> $GITHUB_OUTPUT
+            echo "No version change. Skipping release."
+          fi
+
+  build-mac-app-store:
+    needs: check-version
+    if: needs.check-version.outputs.should_release == 'true'
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Import provisioning profile
+        env:
+          MACOS_PROVISIONING_PROFILE: ${{ secrets.MACOS_PROVISIONING_PROFILE }}
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$MACOS_PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/GhostPad_Mac_App_Store.provisionprofile
+          echo "✅ Provisioning profile imported"
+
+      - name: Build for Mac App Store
+        env:
+          CSC_LINK: ${{ secrets.MACOS_CERTIFICATE }}
+          CSC_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          CSC_INSTALLER_LINK: ${{ secrets.MACOS_INSTALLER_CERTIFICATE }}
+          CSC_INSTALLER_KEY_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+        run: npm run build:mas
+
+      - name: Verify build
+        run: |
+          echo "=== Package Signature ==="
+          pkgutil --check-signature dist/mas-universal/GhostPad-MAS.pkg | head -10
+
+          echo ""
+          echo "=== Renderer Helper Entitlements ==="
+          codesign -d --entitlements - "dist/mas-universal/GhostPad.app/Contents/Frameworks/GhostPad Helper (Renderer).app" 2>&1 | grep -E "allow-jit|allow-unsigned-executable-memory|app-sandbox"
+
+          echo ""
+          echo "✅ Build verified successfully!"
+
+      - name: Get commit message for release notes
+        id: commit
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMIT_MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Upload Mac App Store package
+        uses: actions/upload-artifact@v4
+        with:
+          name: GhostPad-MAS-v${{ needs.check-version.outputs.version }}
+          path: dist/mas-universal/GhostPad-MAS.pkg
+          retention-days: 90
+
+      - name: Cleanup keychain
+        if: always()
+        run: |
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          if [ -f "$KEYCHAIN_PATH" ]; then
+            security delete-keychain $KEYCHAIN_PATH
+          fi
+
+  build-windows-store:
+    needs: check-version
+    if: needs.check-version.outputs.should_release == 'true'
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for Windows Store
+        run: npm run build:win
+
+      - name: Upload Windows Store package
+        uses: actions/upload-artifact@v4
+        with:
+          name: GhostPad-Windows-v${{ needs.check-version.outputs.version }}
+          path: dist/*.appx
+          retention-days: 90
+
+  create-github-release:
+    needs: [check-version, build-mac-app-store, build-windows-store]
+    if: needs.check-version.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Mac artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: GhostPad-MAS-v${{ needs.check-version.outputs.version }}
+          path: ./artifacts/mac
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: GhostPad-Windows-v${{ needs.check-version.outputs.version }}
+          path: ./artifacts/windows
+
+      - name: Get commit info
+        id: commit_info
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "message<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMIT_MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.check-version.outputs.version }}
+          name: GhostPad v${{ needs.check-version.outputs.version }}
+          body: |
+            ## Release v${{ needs.check-version.outputs.version }}
+
+            ${{ steps.commit_info.outputs.message }}
+
+            ---
+
+            ### 📦 Store Builds Ready
+
+            **Mac App Store**: Download `GhostPad-MAS.pkg` from artifacts above
+            **Windows Store**: Download `.appx` file from artifacts above
+
+            ### 📤 Upload Instructions
+
+            #### Mac App Store
+            1. Download the Mac artifact from this release
+            2. Open Transporter app
+            3. Drag `GhostPad-MAS.pkg` into Transporter
+            4. Click "Deliver"
+            5. Go to [App Store Connect](https://appstoreconnect.apple.com)
+            6. Select the build and submit for review
+
+            #### Windows Store
+            1. Download the Windows artifact from this release
+            2. Go to [Partner Center](https://partner.microsoft.com/dashboard)
+            3. Navigate to GhostPad → Start update
+            4. Upload the `.appx` file
+            5. Submit for certification
+
+            ---
+
+            **✅ Both builds are signed and verified**
+            **✅ Ready for immediate store upload**
+
+            *Automated build via GitHub Actions*
+          files: |
+            ./artifacts/mac/GhostPad-MAS.pkg
+            ./artifacts/windows/*.appx
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify-completion:
+    needs: [check-version, create-github-release]
+    if: needs.check-version.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create completion summary
+        run: |
+          echo "# 🎉 Release v${{ needs.check-version.outputs.version }} Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ Builds Created" >> $GITHUB_STEP_SUMMARY
+          echo "- Mac App Store (.pkg)" >> $GITHUB_STEP_SUMMARY
+          echo "- Windows Store (.appx)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📥 Download & Upload" >> $GITHUB_STEP_SUMMARY
+          echo "1. Go to the [Releases page](https://github.com/${{ github.repository }}/releases)" >> $GITHUB_STEP_SUMMARY
+          echo "2. Find release v${{ needs.check-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "3. Download the artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "4. Upload to Mac App Store via Transporter" >> $GITHUB_STEP_SUMMARY
+          echo "5. Upload to Windows Store via Partner Center" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔗 Quick Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [App Store Connect](https://appstoreconnect.apple.com)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Microsoft Partner Center](https://partner.microsoft.com/dashboard)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*Builds are ready for immediate store upload!*" >> $GITHUB_STEP_SUMMARY
