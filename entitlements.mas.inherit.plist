@@ -6,6 +6,10 @@
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
 
+	<!-- CRITICAL: Inherit parent's sandbox instead of creating new one -->
+	<key>com.apple.security.inherit</key>
+	<true/>
+
 	<!-- Inherit parent's ability to read/write user-selected files -->
 	<key>com.apple.security.files.user-selected.read-write</key>
 	<true/>
