@@ -13,14 +13,5 @@
 	<!-- Network Client (for update checking via GitHub API) -->
 	<key>com.apple.security.network.client</key>
 	<true/>
-
-	<!-- Allows the app to use NSAppleScript and related classes -->
-	<key>com.apple.security.scripting-targets</key>
-	<dict>
-		<key>com.apple.applescript</key>
-		<array>
-			<string>com.apple.scripteditor</string>
-		</array>
-	</dict>
 </dict>
 </plist>

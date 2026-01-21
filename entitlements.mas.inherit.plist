@@ -2,20 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- App Sandbox (inherited by all child processes) -->
+	<!-- App Sandbox (required) -->
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
 
 	<!-- CRITICAL: Inherit parent's sandbox instead of creating new one -->
+	<!-- This prevents the "differs from previously opened versions" warning -->
 	<key>com.apple.security.inherit</key>
-	<true/>
-
-	<!-- Inherit parent's ability to read/write user-selected files -->
-	<key>com.apple.security.files.user-selected.read-write</key>
-	<true/>
-
-	<!-- Inherit network client access -->
-	<key>com.apple.security.network.client</key>
 	<true/>
 
 	<!-- Electron-specific entitlements for Helper processes -->
